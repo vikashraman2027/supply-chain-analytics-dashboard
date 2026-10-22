@@ -1,0 +1,76 @@
+// Sales measures. Format currency/percentage in the model, not with FORMAT().
+Net Revenue =
+SUM ( fact_sales[net_revenue] )
+
+Gross Revenue =
+SUM ( fact_sales[gross_revenue] )
+
+Total Profit =
+SUM ( fact_sales[profit] )
+
+Profit Margin % =
+DIVIDE ( [Total Profit], [Net Revenue] )
+
+Discount Amount =
+SUM ( fact_sales[discount_amount] )
+
+Order Count =
+DISTINCTCOUNT ( fact_sales[order_number] )
+
+Revenue Prior Year =
+CALCULATE (
+    [Net Revenue],
+    SAMEPERIODLASTYEAR ( dim_date[date] )
+)
+
+Revenue YoY % =
+DIVIDE (
+    [Net Revenue] - [Revenue Prior Year],
+    [Revenue Prior Year]
+)
+
+// Procurement measures. The supplier relationship is valid in the supplied data.
+Average Procurement Lead Time (Days) =
+AVERAGE ( fact_procurement[lead_time_days] )
+
+Average Transaction Quality Score =
+AVERAGE ( fact_procurement[quality_score] )
+
+// Shipment measures stay at fact grain until shipment dimension keys are reconciled.
+Shipment Count =
+DISTINCTCOUNT ( fact_shipment[shipment_id] )
+
+Delivered Shipment Count =
+CALCULATE (
+    [Shipment Count],
+    fact_shipment[status] = "Delivered"
+)
+
+Delivered Shipment Share % =
+DIVIDE ( [Delivered Shipment Count], [Shipment Count] )
+
+Delayed Shipment Count =
+CALCULATE (
+    [Shipment Count],
+    fact_shipment[status] = "Delayed"
+)
+
+Shipments With Delay Reason =
+CALCULATE (
+    [Shipment Count],
+    FILTER (
+        fact_shipment,
+        NOT ISBLANK ( fact_shipment[delay_reason] )
+            && fact_shipment[delay_reason] <> ""
+    )
+)
+
+Delay Reason Coverage % =
+DIVIDE ( [Shipments With Delay Reason], [Shipment Count] )
+
+// Use only after confirming defective_units / quantity_produced is the business definition.
+Recomputed Production Defect Rate % =
+DIVIDE (
+    SUM ( fact_production[defective_units] ),
+    SUM ( fact_production[quantity_produced] )
+)
