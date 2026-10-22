@@ -1,0 +1,40 @@
+{
+  "name": "Supply Chain Executive",
+  "dataColors": [
+    "#0F766E",
+    "#2563EB",
+    "#D97706",
+    "#7C3AED",
+    "#0891B2",
+    "#475569",
+    "#16A34A",
+    "#DC2626"
+  ],
+  "background": "#F3F6FA",
+  "foreground": "#172B4D",
+  "tableAccent": "#0F766E",
+  "good": "#15803D",
+  "neutral": "#D97706",
+  "bad": "#B91C1C",
+  "maximum": "#0F766E",
+  "center": "#F59E0B",
+  "minimum": "#DC2626",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI",
+      "color": "#172B4D"
+    },
+    "title": {
+      "fontFace": "Segoe UI",
+      "color": "#172B4D"
+    },
+    "header": {
+      "fontFace": "Segoe UI",
+      "color": "#172B4D"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "color": "#475569"
+    }
+  }
+}
